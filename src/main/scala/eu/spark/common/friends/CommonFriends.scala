@@ -15,6 +15,7 @@ object CommonFriends {
         tokens(1).split(" ").filter(!_.isEmpty).map(_.toInt).toList))
 
 
+    println("Users and their corresponding friends")
     userToFriendsRdd.take(10).foreach(println(_))
 
 
@@ -27,10 +28,12 @@ object CommonFriends {
           friends.slice(0, i).union(friends.slice(i+1, friends.length))))
     }
 
+    println("User-User tuples and their corresponding friends")
     useruserToFriendsRdd.take(10).foreach(println(_))
 
     val useruserToFriendsListRdd = useruserToFriendsRdd.groupByKey()
 
+    println("User-User tuples and their corresponding friends lists")
     useruserToFriendsListRdd.take(10).foreach(println(_))
 
     val commonFriendsRdd = useruserToFriendsListRdd.mapValues(friendsLists =>{
@@ -50,6 +53,7 @@ object CommonFriends {
     .sortBy(row => (row._1._1, row._1._2))
 
 
+    println("Common friends")
     commonFriendsRdd.take(10).foreach(println(_))
 
     spark.stop()
